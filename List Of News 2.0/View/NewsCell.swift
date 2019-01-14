@@ -10,14 +10,21 @@ import UIKit
 
 class NewsCell: UICollectionViewCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
+    var news: News? {
+        didSet {
+            titleLabel.text = news?.title
+            sourceLabel.text = news?.source
+            
+            if let thumbnailImageUrl = news?.thumbnailImageUrl {
+                thumbnailImageView.loadImageUsingUrlString(urlString: thumbnailImageUrl)
+            }
+        }
     }
     
     let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "rbk")
+        imageView.image = UIImage(named: "not-found")
+        imageView.layer.cornerRadius = 5
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,8 +33,7 @@ class NewsCell: UICollectionViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Теннис. Открытый чемпионат Австралии. Мария Шарапова - Хэрриет Дарт - 6:0, 6:0. Как закончился матч. Теннис - \"Большой шлем\". - СПОРТ - ЭКСПРЕСС"
-        //label.font = UIFont(name: "HelveticaNeue-Light", size: 17.0)
+        //label.text = "Теннис. Открытый чемпионат Австралии. Мария Шарапова - Хэрриет Дарт - 6:0, 6:0. Как закончился матч. Теннис - \"Большой шлем\". - СПОРТ - ЭКСПРЕСС"
         label.font = label.font.withSize(17)
         label.numberOfLines = 5
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +42,7 @@ class NewsCell: UICollectionViewCell {
     
     let sourceLabel: UILabel = {
         let label = UILabel()
-        label.text = "Lenta.ru"
+        //label.text = "Lenta.ru"
         label.font = label.font.withSize(13)
         label.textColor = UIColor.darkGray
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -51,6 +57,11 @@ class NewsCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
     
     func setupViews() {
         
