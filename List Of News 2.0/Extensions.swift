@@ -15,11 +15,10 @@ extension UIImageView {
         let url = URL(string: urlString as String)
         
         image = nil
-        //self.alpha = 0
         
         if let imageFromCache = imageCache.object(forKey: urlString as NSString) {
             self.image = imageFromCache
-            //self.alpha = 1
+            
             return
         }
         
@@ -30,7 +29,6 @@ extension UIImageView {
                 
                 DispatchQueue.main.async {
                     self.image = UIImage(named: "not-found")
-                    //self.animateAlphaImage(duration: 0.5)
                 }
                 
                 return
@@ -43,14 +41,7 @@ extension UIImageView {
                 imageCache.setObject(imageToCache!, forKey: urlString as NSString)
                 
                 self.image = imageToCache
-                //self.animateAlphaImage(duration: 0.5)
             }
             }.resume()
-    }
-    
-    private func animateAlphaImage(duration: TimeInterval) {
-        UIView.animate(withDuration: duration) {
-            self.alpha = 1
-        }
     }
 }

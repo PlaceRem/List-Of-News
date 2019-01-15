@@ -42,7 +42,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: .mutableContainers) as! [String: AnyObject]
                 let jsonArticles = json["articles"]
-                print(json)
                 
                 for dictionary in jsonArticles as! [[String: AnyObject]] {
                     let thumbnailImageName = dictionary["urlToImage"] as? String
@@ -79,6 +78,17 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        if let newsTitle = self.news[indexPath.item].title {
+            let approximateWidthOfTitleLabel = view.frame.width - 16 - 16 - 20
+            let size = CGSize(width: approximateWidthOfTitleLabel, height: 1000)
+            let attributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 17)]
+            
+            let estimatedFrame = NSString(string: newsTitle).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+            
+            return CGSize(width: view.frame.width - 16, height: estimatedFrame.height + 234)
+        }
+        
         return CGSize(width: view.frame.width - 16, height: 330)
     }
 }
