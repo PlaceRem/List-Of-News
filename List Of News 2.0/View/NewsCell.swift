@@ -8,31 +8,18 @@
 
 import UIKit
 
-enum LabelNumberLines: CGFloat {
-    case one = 20.287109375 // 20.5
-    case two = 40.57421875 // 41.0
-    case three = 60.861328125 // 61.0
-    case four = 81.1484375 // 81.5
-    case five = 101.435546875 // 101.5
-}
-
 class NewsCell: UICollectionViewCell {
     
     var news: News? {
         didSet {
             titleLabel.text = news?.title
             sourceLabel.text = news?.source
-          
-            setupShadow()
-            //self.heightAnchor.constraint(equalToConstant: 234 + labelHeight).isActive = true
             
             if let thumbnailImageUrl = news?.thumbnailImageUrl {
                 thumbnailImageView.loadImageUsingUrlString(urlString: thumbnailImageUrl)
             }
             
-            print("Title Height: ", titleLabel.bounds.height)
-            print("Title Text: ", titleLabel.text)
-            
+            setupShadow()
         }
     }
     
@@ -43,26 +30,21 @@ class NewsCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = UIColor.green
         return imageView
     }()
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        //label.text = "Теннис. Открытый чемпионат Австралии. Мария Шарапова - Хэрриет Дарт - 6:0, 6:0. Как закончился матч. Теннис - \"Большой шлем\". - СПОРТ - ЭКСПРЕСС"
         label.font = label.font.withSize(17)
         label.numberOfLines = 5
-        label.backgroundColor = UIColor.green
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     let sourceLabel: UILabel = {
         let label = UILabel()
-        //label.text = "Lenta.ru"
         label.font = label.font.withSize(13)
         label.textColor = UIColor.darkGray
-        label.backgroundColor = UIColor.green
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -112,9 +94,9 @@ class NewsCell: UICollectionViewCell {
     func setupShadow() {
         layer.cornerRadius = 5.0
         layer.shadowColor = UIColor.darkGray.cgColor
-        layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
-        layer.shadowRadius = 1.5
-        layer.shadowOpacity = 0.3
+        layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
+        layer.shadowRadius = 2.0
+        layer.shadowOpacity = 0.55
         layer.masksToBounds = false
         layer.shadowPath = UIBezierPath(roundedRect: self.bounds, cornerRadius: self.contentView.layer.cornerRadius).cgPath
     }
@@ -122,25 +104,4 @@ class NewsCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    private func setCellHeight(labelHeight: CGFloat) {
-//
-//        var totalViewsSizeWithAnchors = 8 + 170 + 16 + 16 + 16
-//        let labelHeightInt = Int(labelHeight)
-//
-//        switch labelHeightInt {
-//        case 20:
-//            totalViewsSizeWithAnchors += labelHeightInt + 1
-//        case 40:
-//            totalViewsSizeWithAnchors + 20
-//        case 60:
-//            totalViewsSizeWithAnchors + 20
-//        case 81:
-//            totalViewsSizeWithAnchors + 20
-//        case 101:
-//            totalViewsSizeWithAnchors + 20
-//        default:
-//            <#code#>
-//        }
-//    }
 }

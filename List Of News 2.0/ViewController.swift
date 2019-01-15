@@ -70,9 +70,6 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellId", for: indexPath) as! NewsCell
         let news = self.news[indexPath.item]
-        //cell.thumbnailImageView.image = UIImage(named: news.thumbnailImageName!)
-//        cell.titleLabel.text = news.title
-//        cell.sourceLabel.text = news.source
         cell.news = news
         return cell
     }
@@ -90,6 +87,10 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
         
         return CGSize(width: view.frame.width - 16, height: 330)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
 }
 
