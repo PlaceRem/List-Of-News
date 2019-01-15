@@ -93,9 +93,3 @@ class ViewController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return 20
     }
 }
-
-struct News {
-    var thumbnailImageUrl: String?
-    var title: String?
-    var source: String?
-}

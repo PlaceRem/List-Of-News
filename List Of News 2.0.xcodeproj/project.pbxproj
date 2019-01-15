@@ -14,6 +14,7 @@
 		039536C921EC75D000DF4A37 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 039536C721EC75D000DF4A37 /* LaunchScreen.storyboard */; };
 		039536F021ECA38500DF4A37 /* NewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039536EF21ECA38500DF4A37 /* NewsCell.swift */; };
 		039536F221ECB58C00DF4A37 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039536F121ECB58C00DF4A37 /* Extensions.swift */; };
+		039536F521EE240200DF4A37 /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 039536F421EE240200DF4A37 /* News.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		039536CA21EC75D000DF4A37 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		039536EF21ECA38500DF4A37 /* NewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsCell.swift; sourceTree = "<group>"; };
 		039536F121ECB58C00DF4A37 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		039536F421EE240200DF4A37 /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,10 +60,11 @@
 		039536BD21EC75CF00DF4A37 /* List Of News 2.0 */ = {
 			isa = PBXGroup;
 			children = (
+				039536F321EE23F300DF4A37 /* Model */,
 				039536EE21ECA36900DF4A37 /* View */,
+				039536F621EE241C00DF4A37 /* Controller */,
+				039536F721EE244000DF4A37 /* Helpers */,
 				039536BE21EC75CF00DF4A37 /* AppDelegate.swift */,
-				039536C021EC75CF00DF4A37 /* ViewController.swift */,
-				039536F121ECB58C00DF4A37 /* Extensions.swift */,
 				039536C221EC75CF00DF4A37 /* Main.storyboard */,
 				039536C521EC75D000DF4A37 /* Assets.xcassets */,
 				039536C721EC75D000DF4A37 /* LaunchScreen.storyboard */,
@@ -76,6 +79,30 @@
 				039536EF21ECA38500DF4A37 /* NewsCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		039536F321EE23F300DF4A37 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				039536F421EE240200DF4A37 /* News.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		039536F621EE241C00DF4A37 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				039536C021EC75CF00DF4A37 /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		039536F721EE244000DF4A37 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				039536F121ECB58C00DF4A37 /* Extensions.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -152,6 +179,7 @@
 				039536C121EC75CF00DF4A37 /* ViewController.swift in Sources */,
 				039536F021ECA38500DF4A37 /* NewsCell.swift in Sources */,
 				039536BF21EC75CF00DF4A37 /* AppDelegate.swift in Sources */,
+				039536F521EE240200DF4A37 /* News.swift in Sources */,
 				039536F221ECB58C00DF4A37 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
