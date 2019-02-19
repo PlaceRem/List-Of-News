@@ -9,8 +9,8 @@
 import UIKit
 import CoreData
 
-struct Service {
-    static let shared = Service()
+struct NewsService {
+    static let shared = NewsService()
     
     private let apiKey = "1935f6f781ce4d9f87fd7f6bb8b36b40"
     private let country = "ru"
