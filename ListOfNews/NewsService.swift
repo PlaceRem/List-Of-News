@@ -68,6 +68,7 @@ struct NewsService {
             news.urlToImage = newsFromArray.urlToImage
             news.publishedAt = newsFromArray.publishedAt
             news.sourceName = newsFromArray.sourceName
+            news.url = newsFromArray.url
             
             do {
                 try context.save()
@@ -118,6 +119,7 @@ struct NewsService {
             news.title = newsJSON.title
             news.urlToImage = newsJSON.urlToImage
             news.sourceName = newsJSON.source.name
+            news.url = newsJSON.url
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"

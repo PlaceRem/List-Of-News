@@ -13,6 +13,7 @@ struct JSONRequest: Decodable {
 }
 
 struct JSONNews: Decodable {
+    let url: String
     let urlToImage: String?
     let title: String
     let source: JSONSource

@@ -52,4 +52,8 @@ extension NewsFeedController {
             }
         }
     }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(news[indexPath.item].url!)
+    }
 }
