@@ -28,6 +28,8 @@ class NewsFeedController: UICollectionViewController, UICollectionViewDelegateFl
             self.news = news
             self.filteredNews = self.news
             self.collectionView.reloadData()
+            
+            print("\nКОЛИЧЕСТВО НОВОСТЕЙ: \(self.filteredNews.count)\n")
         }
 
         navigationItem.title = "News feed"
@@ -46,9 +48,9 @@ class NewsFeedController: UICollectionViewController, UICollectionViewDelegateFl
         guard let navBar = navigationController?.navigationBar else { return }
         
         searchBar.topAnchor.constraint(equalTo: navBar.topAnchor, constant: 4).isActive = true
-        searchBar.leftAnchor.constraint(equalTo: navBar.leftAnchor, constant: 16).isActive = true
-        searchBar.bottomAnchor.constraint(equalTo: navBar.bottomAnchor, constant: -4).isActive = true
-        searchBar.rightAnchor.constraint(equalTo: navBar.rightAnchor, constant: -16).isActive = true
+        searchBar.leftAnchor.constraint(equalTo: navBar.leftAnchor, constant: 23).isActive = true
+        searchBar.bottomAnchor.constraint(equalTo: navBar.bottomAnchor, constant: -6).isActive = true
+        searchBar.rightAnchor.constraint(equalTo: navBar.rightAnchor, constant: -23).isActive = true
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {

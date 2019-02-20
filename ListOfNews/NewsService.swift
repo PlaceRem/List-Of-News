@@ -27,8 +27,10 @@ struct NewsService {
                 
                 let news = self.fetchNewsFromCoreData()
                 
+                let sortedNews = self.sortNews(news)
+                
                 DispatchQueue.main.async {
-                    completion(news)
+                    completion(sortedNews)
                 }
                 
                 return
@@ -71,14 +73,14 @@ struct NewsService {
         
         newsArray.forEach { (newsFromArray) in
             
-            let news = News(context: context)
-            news.title = newsFromArray.title
-            news.urlToImage = newsFromArray.urlToImage
-            news.publishedAt = newsFromArray.publishedAt
-            news.sourceName = newsFromArray.sourceName
-            news.url = newsFromArray.url
-            
             do {
+                let news = News(context: context)
+                news.title = newsFromArray.title
+                news.urlToImage = newsFromArray.urlToImage
+                news.publishedAt = newsFromArray.publishedAt
+                news.sourceName = newsFromArray.sourceName
+                news.url = newsFromArray.url
+                
                 try context.save()
             } catch let saveError {
                 print("Failed to save in CoreData: ", saveError)
@@ -146,27 +148,33 @@ struct NewsService {
     
     fileprivate func deleteDuplicates(withNews newsArrayFromServer: [News]) -> [News] {
         // News from Core Data
+        
         var newsArray = self.fetchNewsFromCoreData()
         newsArray.append(contentsOf: newsArrayFromServer)
         
-        var sortedNewsArray = [News]()
+        var uniqueNewsArray = [News]()
         
         if newsArray.count > 0 {
             newsArray.forEach { (news) in
-                if !sortedNewsArray.containsObject(of: news) {
-                    sortedNewsArray.append(news)
+                if !uniqueNewsArray.containsObject(of: news) {
+                    uniqueNewsArray.append(news)
                 }
             }
         }
-        print("\nКОЛИЧЕСТВО НОВОСТЕЙ: \(sortedNewsArray.count)\n")
         
-        sortedNewsArray.sort { (n1, n2) -> Bool in
+        return self.sortNews(uniqueNewsArray)
+    }
+    
+    fileprivate func sortNews(_ newsArray: [News]) -> [News] {
+        var news = newsArray
+        
+        news.sort { (n1, n2) -> Bool in
             guard let date1 = n1.publishedAt else { return false }
             guard let date2 = n2.publishedAt else { return false }
             
             return date1.compare(date2) == .orderedDescending
         }
         
-        return sortedNewsArray
+        return news
     }
 }
