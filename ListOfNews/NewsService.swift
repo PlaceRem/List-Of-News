@@ -24,6 +24,14 @@ struct NewsService {
             
             if let error = error {
                 print("Failed to do the request: ", error)
+                
+                let news = self.fetchNewsFromCoreData()
+                
+                DispatchQueue.main.async {
+                    completion(news)
+                }
+                
+                return
             }
             
             guard let data = data else { return }
