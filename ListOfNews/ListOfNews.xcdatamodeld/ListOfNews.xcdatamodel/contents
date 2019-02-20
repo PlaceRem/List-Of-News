@@ -8,6 +8,6 @@
         <attribute name="urlToImage" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="News" positionX="-63" positionY="-18" width="128" height="120"/>
+        <element name="News" positionX="-45" positionY="0" width="128" height="120"/>
     </elements>
 </model>
