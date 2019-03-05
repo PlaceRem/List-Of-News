@@ -15,22 +15,20 @@ struct NewsService {
     private let apiKey = "1935f6f781ce4d9f87fd7f6bb8b36b40"
     private let country = "ru"
     
-    func downloadNewsFromServer(completion: @escaping ([News]) -> ()) {
+    func downloadNewsFromServer(completion: @escaping ([NNews]) -> ()) {
         print("Trying to get news from server...")
         
         guard let url = URL(string: "https://newsapi.org/v2/top-headlines?country=\(country)&apiKey=\(apiKey)&pagesize=40") else { return }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             
+            let newsFromCoreData = self.fetchNewsFromCoreData()
+            
             if let error = error {
                 print("Failed to do the request: ", error)
                 
-                let news = self.fetchNewsFromCoreData()
-                
-                let sortedNews = self.sortNews(news)
-                
                 DispatchQueue.main.async {
-                    completion(sortedNews)
+                    completion(newsFromCoreData)
                 }
                 
                 return
@@ -40,18 +38,17 @@ struct NewsService {
             
             print("   Successfully got news from server")
             
-            let jsonDecoder = JSONDecoder()
-            
             do {
-                let json = try jsonDecoder.decode(JSONRequest.self, from: data)
+                guard let json = try JSONSerialization.jsonObject(with: data, options: [.mutableContainers]) as? [String: Any] else { return }
                 
-                let newsFromServer = json.articles
+                guard let arrayOfNews = json["articles"] as? [[String: Any]] else { return }
                 
-                // Convert JSONNews to News (Core Data format)
-                let convertedNews = self.convertType(of: newsFromServer)
+                // There is all news from server and Core Data
+                var newsFromServerAndCoreData = self.convertType(of: arrayOfNews)
+                newsFromServerAndCoreData.append(contentsOf: newsFromCoreData)
                 
-                let sortedNews = self.deleteDuplicates(withNews: convertedNews)
-        
+                let sortedNews = self.deleteDuplicates(newsArray: newsFromServerAndCoreData)
+                
                 self.deleteNewsFromCoreData()
                 self.saveToCoreDate(sortedNews)
                 
@@ -63,10 +60,10 @@ struct NewsService {
                 print("Failed to decode json: ", jsonDecodeErr)
             }
             
-        }.resume()
+            }.resume()
     }
     
-    fileprivate func saveToCoreDate(_ newsArray: [News]) {
+    fileprivate func saveToCoreDate(_ newsArray: [NNews]) {
         print("Trying to save news to CoreData...")
         
         let context = CoreDataManager.shared.persistentContainer.viewContext
@@ -90,15 +87,21 @@ struct NewsService {
         print("Successfully saved news to CoreData")
     }
     
-    fileprivate func fetchNewsFromCoreData() -> [News] {
+    fileprivate func fetchNewsFromCoreData() -> [NNews] {
         let context = CoreDataManager.shared.persistentContainer.viewContext
         
         let fetchRequest = NSFetchRequest<News>(entityName: "News")
         
         do {
-            let news = try context.fetch(fetchRequest)
+            let newsFromCoreData = try context.fetch(fetchRequest)
+            var convertedNews = [NNews]()
             
-            return news
+            newsFromCoreData.forEach { (newsCD) in
+                let news = NNews(newsFromCoreData: newsCD)
+                convertedNews.append(news)
+            }
+            
+            return convertedNews
             
         } catch let fetchError {
             print("Failed to fetch companies: ", fetchError)
@@ -118,41 +121,25 @@ struct NewsService {
         }
     }
     
-    fileprivate func convertType(of newsArray: [JSONNews]) -> [News] {
-        var convertedNewsArray = [News]()
-        let context = CoreDataManager.shared.persistentContainer.viewContext
+    fileprivate func convertType(of arrayOfNews: [[String: Any]]) -> [NNews] {
+        var convertedNews = [NNews]()
         
         print("Trying to decode news from JSON...")
         
-        newsArray.forEach { (newsJSON) in
-            let news = News(context: context)
-            news.title = newsJSON.title
-            news.urlToImage = newsJSON.urlToImage
-            news.sourceName = newsJSON.source.name
-            news.url = newsJSON.url
+        arrayOfNews.forEach { (dictionary) in
+            let news = NNews(dictionary: dictionary)
             
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
-            
-            guard let publishedAt = dateFormatter.date(from: newsJSON.publishedAt) else { return }
-            
-            news.publishedAt = publishedAt
-            
-            convertedNewsArray.append(news)
+            convertedNews.append(news)
         }
         
         print("   Successfully converted news from JSON")
         
-        return convertedNewsArray
+        return convertedNews
     }
     
-    fileprivate func deleteDuplicates(withNews newsArrayFromServer: [News]) -> [News] {
-        // News from Core Data
+    fileprivate func deleteDuplicates(newsArray: [NNews]) -> [NNews] {
         
-        var newsArray = self.fetchNewsFromCoreData()
-        newsArray.append(contentsOf: newsArrayFromServer)
-        
-        var uniqueNewsArray = [News]()
+        var uniqueNewsArray = [NNews]()
         
         if newsArray.count > 0 {
             newsArray.forEach { (news) in
@@ -165,7 +152,7 @@ struct NewsService {
         return self.sortNews(uniqueNewsArray)
     }
     
-    fileprivate func sortNews(_ newsArray: [News]) -> [News] {
+    fileprivate func sortNews(_ newsArray: [NNews]) -> [NNews] {
         var news = newsArray
         
         news.sort { (n1, n2) -> Bool in

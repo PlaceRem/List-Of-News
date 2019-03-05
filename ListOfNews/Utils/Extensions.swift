@@ -41,7 +41,7 @@ extension UIImageView {
             DispatchQueue.main.async {
                 self.image = imageToCache
             }
-        }.resume()
+            }.resume()
     }
 }
 
@@ -82,8 +82,8 @@ extension Date {
     }
 }
 
-extension Array where Element: News {
-    public func containsObject(of news: Element) -> Bool {
+extension Array where Element == NNews {
+    internal func containsObject(of news: Element) -> Bool {
         for newsFromArray in self {
             if newsFromArray.title == news.title {
                 return true

@@ -56,12 +56,12 @@ extension NewsFeedController {
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let newsUrl = news[indexPath.item].url else { return }
+        guard let newsUrl = self.news[indexPath.item].url else { return }
         
         if let url = URL(string: newsUrl) {
             
             let vc = SFSafariViewController(url: url)
-            present(vc, animated: true)
+            self.present(vc, animated: true)
         }
     }
 }

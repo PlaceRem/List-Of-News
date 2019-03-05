@@ -10,8 +10,8 @@ import UIKit
 
 class NewsFeedController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchBarDelegate {
     
-    var news = [News]()
-    var filteredNews = [News]()
+    var news = [NNews]()
+    var filteredNews = [NNews]()
     
     lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -20,7 +20,7 @@ class NewsFeedController: UICollectionViewController, UICollectionViewDelegateFl
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,9 +31,9 @@ class NewsFeedController: UICollectionViewController, UICollectionViewDelegateFl
             
             print("\nКОЛИЧЕСТВО НОВОСТЕЙ: \(self.filteredNews.count)\n")
         }
-
+        
         navigationItem.title = "News feed"
-    
+        
         collectionView.backgroundColor = UIColor.white
         collectionView.register(NewsCell.self, forCellWithReuseIdentifier: "cellId")
         

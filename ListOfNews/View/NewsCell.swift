@@ -10,7 +10,7 @@ import UIKit
 
 class NewsCell: UICollectionViewCell {
     
-    var news: News? {
+    var news: NNews? {
         didSet {
             titleLabel.text = news?.title
             sourceLabel.text = news?.sourceName
@@ -21,6 +21,8 @@ class NewsCell: UICollectionViewCell {
             
             if let thumbnailImageUrl = news?.urlToImage {
                 thumbnailImageView.loadImageUsingUrlString(urlString: thumbnailImageUrl)
+            } else {
+                thumbnailImageView.image = UIImage(named: "not-found")
             }
             
             setupShadow()
@@ -29,7 +31,6 @@ class NewsCell: UICollectionViewCell {
     
     let thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "not-found")
         imageView.layer.cornerRadius = 5
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
